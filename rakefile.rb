@@ -5,7 +5,7 @@ require 'rbconfig'
 require 'nuget_helper'
 
 $dir = File.join(File.dirname(__FILE__),'src')
-$sln = File.join($dir, "Isop.sln")
+$sln = File.join($dir, "Isop.Server.sln")
 
 desc "Install missing NuGet packages."
 task :restore do

@@ -1,0 +1,10 @@
+sudo: false
+language: csharp 
+
+solution: ./src/Isop.Server.sln
+install:
+    - nuget restore ./src/Isop.Server.sln
+
+script: 
+  - bundle install 
+  - rake test

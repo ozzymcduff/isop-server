@@ -1,7 +1,4 @@
-require 'visual_studio_files.rb'
 require 'albacore'
-
-require 'rbconfig'
 require 'nuget_helper'
 
 $dir = File.join(File.dirname(__FILE__),'src')
@@ -39,4 +36,17 @@ test_runner :test => [:build] do |runner|
   runner.exe = NugetHelper.nunit_path
   files = Dir.glob(File.join($dir, "*Tests", "**", "bin", "Debug", "*Tests.dll"))
   runner.files = files 
+end
+
+task :client_nugetpack => [:build_release] do |nuget|
+  cd File.join($dir, "Isop.Client") do
+    NugetHelper::exec "pack Isop.Client.csproj"
+  end
+end
+
+task :client_nugetpush do |nuget|
+  cd File.join($dir, "Isop.Client") do
+    latest = NugetHelper.last_version(Dir.glob("Isop.Client.*.nupkg"))
+    NugetHelper::exec("push #{latest}")
+  end
 end

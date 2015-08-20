@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Isop.Client</id>
+    <version>0.1.0</version>
+    <authors>wallymathieu</authors>
+    <owners>wallymathieu</owners>
+    <licenseUrl>https://en.wikipedia.org/wiki/MIT_License</licenseUrl>
+    <projectUrl>https://github.com/wallymathieu/isop-server</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Client for isop server</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+  </metadata>
+</package>

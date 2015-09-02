@@ -1,6 +1,8 @@
 ﻿using System;
 using Nancy.Testing;
 using Isop.Server;
+using Nancy.ViewEngines;
+using Nancy.ViewEngines.Veil;
 
 namespace Isop.Tests.Server
 {
@@ -23,7 +25,10 @@ namespace Isop.Tests.Server
                     with.DisableAutoRegistrations();
                     with.Module<IndexModule>();
                 }
+                with.ViewLocationProvider<ResourceViewLocationProvider>();
+                with.ViewEngine<VeilViewEngine>();
             });
+
             var browser = new Browser(bootstrapper, defaults);
             return browser;
         }

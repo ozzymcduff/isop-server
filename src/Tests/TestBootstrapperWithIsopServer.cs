@@ -4,6 +4,10 @@ using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using Nancy.Testing;
 using System;
+using Nancy.ViewEngines;
+using System.Collections.Generic;
+
+
 namespace Isop.Tests.Server
 {
     public class TestBootstrapperWithIsopServer <TISopServer>: ConfigurableBootstrapper 

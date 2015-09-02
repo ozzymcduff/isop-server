@@ -95,6 +95,7 @@
     <Compile Include="IsopServerFromBuildTests.cs" />
     <Compile Include="JsonApiTests.cs" />
     <Compile Include="TestBootstrapperWithIsopServer.cs" />
+    <Compile Include="JsonApiGivenServerWithSingleIntActionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Isop.Server\Isop.Server.csproj">

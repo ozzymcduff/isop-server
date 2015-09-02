@@ -24,12 +24,16 @@ namespace Isop.Tests.Server
             var browser = new Browser(bootstrapper, defaults: to => to.Accept("application/json"));
             return browser;
         }
+        private Browser browser;
+        [TestFixtureSetUp]
+        public void BeforeEachTest()
+        {
+            browser = GetBrowser();
+        }
+
         [Test]
         public void Should_return_global_parameters()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/", with =>
             {
@@ -45,9 +49,6 @@ namespace Isop.Tests.Server
         [Test]
         public void Should_return_controllers()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/", with =>
             {
@@ -63,9 +64,6 @@ namespace Isop.Tests.Server
         [Test]
         public void When_get_controller_url_Should_return_available_actions()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/My/", with =>
             {
@@ -83,9 +81,6 @@ namespace Isop.Tests.Server
         [Test]
         public void Form_for_action_Should_contain_parameters()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/My/Action/", with =>
             {
@@ -105,9 +100,6 @@ namespace Isop.Tests.Server
         [Test]
         public void Post_form_action()
         {
-            // Given
-            var browser = GetBrowser();
-
             var value = "value ' 3 ' \"_12 \"sdf";
 
             // When
@@ -122,68 +114,5 @@ namespace Isop.Tests.Server
             Assert.That(result.Body["p"].Map(p => p.InnerText).Join("\n"), Is.StringContaining(HttpUtility.HtmlEncode("value=" + value)));
         }
 
-        class FakeIsopServerWithSingleIntAction : IsopServerFromBuild
-        {
-            public FakeIsopServerWithSingleIntAction()
-                : base( ()=> new Build { typeof(Isop.Tests.FakeControllers.SingleIntAction) })
-            {
-            }
-        }
-        public void Post_form_action2()
-        {
-            // Given
-            var browser = GetBrowser<FakeIsopServerWithSingleIntAction>();
-
-            // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
-            {
-                with.HttpRequest();
-                with.FormValue("param", "1");
-            });
-
-            // Then
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-        }
-
-        [Test]
-        public void Post_form_action_with()
-        {
-            // Given
-            var browser = GetBrowser<FakeIsopServerWithSingleIntAction>();
-
-            // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
-            {
-                with.HttpRequest();
-            });
-
-            // Then
-            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            var response = result.Body.DeserializeJson<Isop.Server.Models.MissingArgument[]>().Single();
-
-            Assert.That(response.Argument, Is.EquivalentTo("param" ));
-        }
-
-        [Test]
-        public void Post_form_action_with_wrong_value()
-        {
-            // Given
-            var browser = GetBrowser<FakeIsopServerWithSingleIntAction>();
-
-            // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
-            {
-                with.HttpRequest();
-                with.FormValue("param", "asdf");
-            });
-
-            // Then
-            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            var response = result.Body.DeserializeJson<Isop.Server.Models.TypeConversionFailed[]>().Single();
-
-            Assert.That(response.Argument, Is.EqualTo("param"), "Arg");
-            Assert.That(response.TargetType, Is.EqualTo("System.Int32"), "TargetType");
-            Assert.That(response.Value, Is.EqualTo("asdf"), "Value");
-        }
     }
 }

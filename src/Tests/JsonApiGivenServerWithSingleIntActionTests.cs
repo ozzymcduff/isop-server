@@ -20,7 +20,9 @@ namespace Isop.Tests.Server
         public void BeforeEachTest ()
         {
             // Given
-            browser = GetBrowser<FakeIsopServerWithSingleIntAction>();
+            browser = GetBrowser<FakeIsopServerWithSingleIntAction>(
+                defaults: to => to.Accept("application/json")
+            );
         }
 
         class FakeIsopServerWithSingleIntAction : IsopServerFromBuild

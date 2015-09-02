@@ -18,7 +18,7 @@ namespace Isop.Tests.Server
         [TestFixtureSetUp]
         public void BeforeEachTest()
         {
-            browser = GetBrowser();
+            browser = GetBrowser(defaults: to => to.Accept("application/json"));
         }
 
         [Test]

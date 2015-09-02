@@ -73,9 +73,6 @@
     <Reference Include="CsQuery">
       <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
     </Reference>
-    <Reference Include="With">
-      <HintPath>..\packages\With.0.4.16\lib\net40\With.dll</HintPath>
-    </Reference>
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.1.2.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
@@ -84,6 +81,9 @@
     </Reference>
     <Reference Include="Isop">
       <HintPath>..\packages\Isop.2.0.5\lib\net40\Isop.dll</HintPath>
+    </Reference>
+    <Reference Include="With">
+      <HintPath>..\packages\With.0.4.18\lib\net40\With.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +96,8 @@
     <Compile Include="JsonApiTests.cs" />
     <Compile Include="TestBootstrapperWithIsopServer.cs" />
     <Compile Include="JsonApiGivenServerWithSingleIntActionTests.cs" />
+    <Compile Include="HtmlApiGivenSingleIntAction.cs" />
+    <Compile Include="BaseFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Isop.Server\Isop.Server.csproj">

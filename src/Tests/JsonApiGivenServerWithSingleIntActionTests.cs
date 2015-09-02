@@ -13,18 +13,8 @@ namespace Isop.Tests.Server
 {
     
     [TestFixture]
-    public class JsonApiGivenServerWithSingleIntActionTests
+    public class JsonApiGivenServerWithSingleIntActionTests: BaseFixture
     {
-        private static Browser GetBrowser()
-        {
-            return GetBrowser<FakeIsopServer>();
-        }
-        private static Browser GetBrowser<TISopServer>() where TISopServer : class,IIsopServer
-        {
-            var bootstrapper = new TestBootstrapperWithIsopServer<TISopServer>();
-            var browser = new Browser(bootstrapper, defaults: to => to.Accept("application/json"));
-            return browser;
-        }
         private Browser browser;
         [TestFixtureSetUp]
         public void BeforeEachTest ()

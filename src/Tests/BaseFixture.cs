@@ -11,6 +11,7 @@ namespace Isop.Tests.Server
         public BaseFixture ()
         {
         }
+
         public static Browser GetBrowser(Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> configuration=null, Action<BrowserContext> defaults=null)
         {
             return GetBrowser<FakeIsopServer>(configuration, defaults);
@@ -20,6 +21,7 @@ namespace Isop.Tests.Server
             var bootstrapper = new TestBootstrapperWithIsopServer<TISopServer>(with=>{
                 with.Module<ControllerModule>();
                 if (null!=configuration){
+                    with.DisableAutoRegistrations();
                     configuration(with);
                 }else{
                     with.DisableAutoRegistrations();

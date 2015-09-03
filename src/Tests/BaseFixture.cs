@@ -19,13 +19,12 @@ namespace Isop.Tests.Server
         public static Browser GetBrowser<TISopServer>(Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> configuration=null, Action<BrowserContext> defaults=null) where TISopServer : class, IIsopServer
         {
             var bootstrapper = new TestBootstrapperWithIsopServer<TISopServer>(with=>{
+                with.DisableAutoRegistrations();
                 with.Module<ControllerModule>();
-                if (null!=configuration){
-                    with.DisableAutoRegistrations();
+                with.Module<IndexModule>();
+                if (null!=configuration)
+                {
                     configuration(with);
-                }else{
-                    with.DisableAutoRegistrations();
-                    with.Module<IndexModule>();
                 }
                 with.ViewLocationProvider<ResourceViewLocationProvider>();
                 with.ViewEngine<VeilViewEngine>();

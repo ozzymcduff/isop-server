@@ -26,7 +26,6 @@ namespace Isop.Server
                 .Register<IIsopServer, IsopServerFromAssemblyLocation>();
 
             existingContainer.Register<JsonSerializer, CustomJsonSerializer>();
-
         }
 
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
@@ -48,7 +47,9 @@ namespace Isop.Server
         {
             get
             {
-                return NancyInternalConfiguration.WithOverrides(c => c.ViewLocationProvider = typeof(ResourceViewLocationProvider));
+                return NancyInternalConfiguration
+                    .WithOverrides(c => c.ViewLocationProvider = typeof(ResourceViewLocationProvider))
+                    ;
             }
         }
 

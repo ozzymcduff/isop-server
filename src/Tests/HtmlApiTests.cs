@@ -9,25 +9,18 @@ using Isop.Server;
 namespace Isop.Tests.Server
 {
     [TestFixture]
-    public class HtmlApiTests
+    public class HtmlApiTests: BaseFixture
     {
-        private static Browser GetBrowser()
+        private Browser browser;
+        [TestFixtureSetUp]
+        public void BeforeEachTest()
         {
-            return GetBrowser<FakeIsopServer>();
-        }
-        private static Browser GetBrowser<TISopServer>() where TISopServer : class, IIsopServer
-        {
-            var bootstrapper = new TestBootstrapperWithIsopServer<TISopServer>();
-            var browser = new Browser(bootstrapper);
-            return browser;
+            browser = GetBrowser();
         }
 
         [Test]
         public void Should_return_global_parameters()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/", with =>
             {
@@ -43,9 +36,6 @@ namespace Isop.Tests.Server
         [Test]
         public void Should_return_available_controllers()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/", with =>
             {
@@ -61,9 +51,6 @@ namespace Isop.Tests.Server
         [Test]
         public void When_get_controller_url_Should_return_header_and_available_actions()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/My/", with =>
             {
@@ -80,9 +67,6 @@ namespace Isop.Tests.Server
         [Test]
         public void Form_for_action_Should_contain_parameters()
         {
-            // Given
-            var browser = GetBrowser();
-
             // When
             var result = browser.Get("/My/Action/", with =>
             {
@@ -100,9 +84,6 @@ namespace Isop.Tests.Server
         [Test]
         public void Post_form_action()
         {
-            // Given
-            var browser = GetBrowser();
-
             var value = "value ' 3 ' \"_12 \"sdf";
 
             // When
@@ -115,31 +96,6 @@ namespace Isop.Tests.Server
             // Then
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.That(result.Body["p"].Map(p => p.InnerText).Join("\n"), Is.StringContaining(HttpUtility.HtmlEncode("value=" + value)));
-        }
-
-        class FakeIsopServerWithSingleIntAction : IsopServerFromBuild
-        {
-            public FakeIsopServerWithSingleIntAction()
-                : base(()=>new Build { typeof(Isop.Tests.FakeControllers.SingleIntAction) })
-            {
-            }
-        }
-
-        [Test]
-        public void Post_form_action_with()
-        {
-            // Given
-            var browser = GetBrowser<FakeIsopServerWithSingleIntAction>();
-
-            // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
-            {
-                with.HttpRequest();
-            });
-
-            // Then
-            Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            Assert.That(result.Body["p"].Map(p => p.InnerText).Join("\n"), Is.StringContaining("param"));
         }
     }
 }

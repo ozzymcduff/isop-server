@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isop.Client", "Isop.Client\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isop.Client.Tests", "Isop.Client.Tests\Isop.Client.Tests.csproj", "{FEE255A9-1012-4990-BF0D-7648F5489346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isop.Server.Owin", "Isop.Server.Owin\Isop.Server.Owin.csproj", "{2817CA96-F805-4F6E-B916-8BB1B86256DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{2817CA96-F805-4F6E-B916-8BB1B86256DD}.Release|x86.Build.0 = Release|Any CPU
 		{3F6B64BC-A3CC-430E-A9EF-2A2BDC98FE0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F6B64BC-A3CC-430E-A9EF-2A2BDC98FE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F6B64BC-A3CC-430E-A9EF-2A2BDC98FE0A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

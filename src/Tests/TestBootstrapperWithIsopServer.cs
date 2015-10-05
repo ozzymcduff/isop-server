@@ -1,11 +1,7 @@
-﻿using Nancy;
-using Isop.Server;
-using Nancy.Bootstrapper;
+﻿using Isop.Server;
 using Nancy.TinyIoc;
 using Nancy.Testing;
 using System;
-using Nancy.ViewEngines;
-using System.Collections.Generic;
 
 
 namespace Isop.Tests.Server

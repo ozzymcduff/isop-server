@@ -2,10 +2,7 @@ using Nancy;
 using Nancy.Testing;
 using NUnit.Framework;
 using System.Linq;
-using With.Rubyfy;
 using With;
-using Nancy.Helpers;
-using Isop.Server;
 namespace Isop.Tests.Server
 {
 
@@ -31,7 +28,7 @@ namespace Isop.Tests.Server
 
             // Then
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            Assert.That(result.Body["p"].Map(p => p.InnerText).Join("\n"), Is.StringContaining("param"));
+            Assert.That(result.Body["p"].Select(p => p.InnerText).Join("\n"), Is.StringContaining("param"));
         }
 
     }

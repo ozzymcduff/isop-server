@@ -2,7 +2,6 @@
 using Nancy.Testing;
 using NUnit.Framework;
 using System.Linq;
-using With.Rubyfy;
 using With;
 using Nancy.Helpers;
 using Isop.Server;
@@ -30,7 +29,7 @@ namespace Isop.Tests.Server
             // Then
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.AreEqual(new[] { "Global" }, result.Body[".global_parameters input"]
-                .Map(i => i.Attributes["name"]).ToA());
+                .Select(i => i.Attributes["name"]).ToArray());
         }
 
         [Test]
@@ -45,7 +44,7 @@ namespace Isop.Tests.Server
             // Then
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.AreEqual(new[] { "My" }, result.Body[".controllers a"]
-                .Map(i => i.InnerText).ToA());
+                .Select(i => i.InnerText).ToArray());
         }
 
         [Test]
@@ -61,7 +60,7 @@ namespace Isop.Tests.Server
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.AreEqual("My", result.Body["h1"].Single().InnerText.Trim('\n', '\r', ' '));
             Assert.AreEqual(new[] { "Action", "Fail", "ActionWithGlobalParameter", "ActionWithObjectArgument" },
-                result.Body["a"].Map(i => i.InnerText.Trim('\n', '\r', ' ')).ToA());
+                result.Body["a"].Select(i => i.InnerText.Trim('\n', '\r', ' ')).ToArray());
         }
 
         [Test]
@@ -76,7 +75,7 @@ namespace Isop.Tests.Server
             // Then
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
             Assert.AreEqual("Action", result.Body["h1"].Single().InnerText.Trim('\n', '\r', ' '));
-            var names = result.Body["form input"].Map(i => i.Attributes["name"]).ToA();
+            var names = result.Body["form input"].Select(i => i.Attributes["name"]).ToArray();
             Assert.AreEqual(new[] { "value" }, names);
         }
 
@@ -95,7 +94,7 @@ namespace Isop.Tests.Server
 
             // Then
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-            Assert.That(result.Body["p"].Map(p => p.InnerText).Join("\n"), Is.StringContaining(HttpUtility.HtmlEncode("value=" + value)));
+            Assert.That(result.Body["p"].Select(p => p.InnerText).Join("\n"), Is.StringContaining(HttpUtility.HtmlEncode("value=" + value)));
         }
     }
 }

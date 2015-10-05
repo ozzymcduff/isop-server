@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using With.Rubyfy;
+using System.Linq;
 using Isop.Server;
 using Isop.Server.Models;
 
@@ -14,12 +14,12 @@ namespace Isop.Tests.Server
 
         public Controller GetController(string controller)
         {
-            return new Controller("My", new[] { "Action", "Fail", "ActionWithGlobalParameter", "ActionWithObjectArgument" }.Map(n => new Method(n, "My", "Help")));
+            return new Controller("My", new[] { "Action", "Fail", "ActionWithGlobalParameter", "ActionWithObjectArgument" }.Select(n => new Method(n, "My", "Help")));
         }
 
         public Method GetControllerMethod(string controller, string method)
         {
-            return new Method(method, null, "Help") { Parameters = new[] { "value" }.Map(p => new Param(typeof(string), p, true)) };
+            return new Method(method, null, "Help") { Parameters = new[] { "value" }.Select(p => new Param(typeof(string), p, true)) };
         }
 
         public IEnumerable<string> InvokeMethod(Method method, IDictionary<string, object> form)

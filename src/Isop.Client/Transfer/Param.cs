@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Isop.Client.Transfer
+﻿namespace Isop.Client.Transfer
 {
     public class Param 
     {

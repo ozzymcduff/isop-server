@@ -1,9 +1,4 @@
-﻿using Isop.Client.Transfer;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Isop.Client.Transfer
+﻿namespace Isop.Client.Transfer
 {
     public class MissingArgument : IErrorMessage
     {

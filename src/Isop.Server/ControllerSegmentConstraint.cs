@@ -1,6 +1,4 @@
 using System;
-using Nancy;
-using Nancy.Hosting.Self;
 using Nancy.Routing.Constraints;
 
 namespace Isop.Server

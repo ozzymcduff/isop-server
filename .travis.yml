@@ -1,4 +1,4 @@
-sudo: false
+
 language: csharp 
 
 solution: ./src/Isop.Server.sln

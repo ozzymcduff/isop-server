@@ -89,8 +89,8 @@ namespace Isop.Tests.Server
             var msg = conf.Configure(new HttpRequestMessage
             {
                 RequestUri = Uris.Create(BaseAddress, path),
-                Method = HttpMethod.Post,
-                Content = new StringContent(JsonConvert.SerializeObject(conf._Body), Encoding.UTF8, "application/json")
+                Method = HttpMethod.Post//,
+                //Content = new StringContent(JsonConvert.SerializeObject(conf._Body), Encoding.UTF8, "application/json")
             });
             IncludeCookies(msg);
             var result =  await _client.SendAsync(msg);
@@ -118,7 +118,6 @@ namespace Isop.Tests.Server
         }
 
         public static string BaseAddress { get; } = "https://localhost:5001";
-        public static string Origin { get; } = "https://someotherthing";
         public async Task<HttpResponseMessage> Get(string path, Action<BrowserContext> with)
         {
             var conf=new BrowserContext();

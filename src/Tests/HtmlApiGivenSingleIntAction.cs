@@ -22,7 +22,8 @@ namespace Isop.Tests.Server
 
             // Then
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            StringAssert.Contains(string.Join("\n",(await result.Body("p")).Select(p => p.InnerText)), "param");
+            StringAssert.Contains("param",
+                string.Join("\n",(await result.Body("p")).Select(p => p.InnerText)));
         }
 
     }

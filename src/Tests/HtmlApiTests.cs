@@ -89,7 +89,8 @@ namespace Isop.Tests.Server
 
             // Then
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-            StringAssert.Contains(String.Join("\n",(await result.Body("p")).Select(p => p.InnerText)), HttpUtility.HtmlEncode("value=" + value));
+            StringAssert.Contains(HttpUtility.HtmlEncode("value=" + value),
+                String.Join("\n",(await result.Body("p")).Select(p => p.InnerText)));
         }
     }
 }

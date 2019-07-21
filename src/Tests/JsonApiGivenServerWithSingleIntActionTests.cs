@@ -1,7 +1,7 @@
-using Nancy;
-using Nancy.Testing;
 using NUnit.Framework;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Isop.Tests.Server
 {
@@ -9,20 +9,14 @@ namespace Isop.Tests.Server
     [TestFixture]
     public class JsonApiGivenServerWithSingleIntActionTests: BaseFixture
     {
-        private Browser browser;
-        [TestFixtureSetUp]
-        public void BeforeEachTest ()
-        {
-            // Given
-            browser = GetBrowser<FakeIsopServerWithSingleIntAction>(
+        private static Browser browser= GetBrowser<FakeIsopServerWithSingleIntAction>(
                 defaults: to => to.Accept("application/json")
             );
-        }
 
-        public void Post_form_action2()
+        public async Task Post_form_action2()
         {
             // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
+            var result = await browser.Post("/SingleIntAction/Action/", with =>
                 {
                     with.HttpRequest();
                     with.FormValue("param", "1");
@@ -33,26 +27,26 @@ namespace Isop.Tests.Server
         }
 
         [Test]
-        public void Post_form_action_with()
+        public async Task Post_form_action_with()
         {
             // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
+            var result =await browser.Post("/SingleIntAction/Action/", with =>
                 {
                     with.HttpRequest();
                 });
 
             // Then
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            var response = result.Body.DeserializeJson<Isop.Server.Models.MissingArgument[]>().Single();
+            var response = (await result.BodyDeserializeJson<Isop.Server.Models.MissingArgument[]>()).Single();
 
             Assert.That(response.Argument, Is.EquivalentTo("param" ));
         }
 
         [Test]
-        public void Post_form_action_with_wrong_value()
+        public async Task Post_form_action_with_wrong_value()
         {
             // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
+            var result = await browser.Post("/SingleIntAction/Action/", with =>
                 {
                     with.HttpRequest();
                     with.FormValue("param", "asdf");
@@ -60,7 +54,7 @@ namespace Isop.Tests.Server
 
             // Then
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            var response = result.Body.DeserializeJson<Isop.Server.Models.TypeConversionFailed[]>().Single();
+            var response = (await result.BodyDeserializeJson<Isop.Server.Models.TypeConversionFailed[]>()).Single();
 
             Assert.That(response.Argument, Is.EqualTo("param"), "Arg");
             Assert.That(response.TargetType, Is.EqualTo("System.Int32"), "TargetType");

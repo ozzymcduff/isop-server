@@ -3,6 +3,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using With;
 using System;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Isop.Tests.Server
 {
     [TestFixture]
@@ -29,7 +31,8 @@ namespace Isop.Tests.Server
         public void SetUp()
         {
             _controller = new MyController();
-            _data = new IsopServerFromBuild( ()=> new Build().Recognize(_controller));
+            _data = new IsopServerFromBuild( ()=> Builder.Create(new ServiceCollection()
+                .Tap(sc=>sc.AddSingleton(_controller))).Recognize(_controller.GetType()).BuildAppHost());
         }
 
         [Test]
@@ -37,7 +40,7 @@ namespace Isop.Tests.Server
         {
             var method = _data.GetControllerMethod("My", "Action");
             var value = "value ' 3 ' \"_12 \"sdf";
-            var result = _data.InvokeMethod(method, new Dictionary<string, object> { { "value", value } }).Join("\n");
+            var result = String.Join("\n", _data.InvokeMethod(method, new Dictionary<string, object> { { "value", value } }));
             Assert.That(_controller.ActionValue, Is.EqualTo(value));
         }
 
@@ -47,7 +50,7 @@ namespace Isop.Tests.Server
             var method = _data.GetControllerMethod("My", "ReturnObject");
             var value = "{\"v\":1}";
             _controller.Value = new {v=1};
-            var result = _data.InvokeMethod(method, Empty()).Join("\n");
+            var result = String.Join("\n",_data.InvokeMethod(method, Empty()));
             Assert.That(result, Is.EqualTo(value));
         }
 

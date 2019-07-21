@@ -32,3 +32,5 @@ nuget/Isop.Runners/tools/
 appsettings.config
 # vs2015 preview:
 .vs/
+.idea/
+.ionide/

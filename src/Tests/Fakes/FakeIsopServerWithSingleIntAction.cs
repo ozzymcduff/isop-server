@@ -1,4 +1,5 @@
 using Isop.Server;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Isop.Tests.Server
 {
@@ -6,7 +7,7 @@ namespace Isop.Tests.Server
     class FakeIsopServerWithSingleIntAction : IsopServerFromBuild
     {
         public FakeIsopServerWithSingleIntAction()
-            : base( ()=> new Build { typeof(Isop.Tests.FakeControllers.SingleIntAction) })
+            : base( ()=> Builder.Create(new ServiceCollection()).Recognize(typeof(Isop.Tests.FakeControllers.SingleIntAction)).BuildAppHost())
         {
         }
     }

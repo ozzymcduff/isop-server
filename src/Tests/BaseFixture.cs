@@ -1,37 +1,36 @@
 ﻿using System;
-using Nancy.Testing;
 using Isop.Server;
-using Nancy.ViewEngines;
-using Nancy.ViewEngines.Veil;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using With;
 
 namespace Isop.Tests.Server
 {
     public class BaseFixture
     {
-        public BaseFixture ()
-        {
-        }
 
-        public static Browser GetBrowser(Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> configuration=null, Action<BrowserContext> defaults=null)
+        public static Browser GetBrowser(Action<ConfigurationBuilder> configuration=null, Action<BrowserContext> defaults=null)
         {
             return GetBrowser<FakeIsopServer>(configuration, defaults);
         }
-        public static Browser GetBrowser<TISopServer>(Action<ConfigurableBootstrapper.ConfigurableBootstrapperConfigurator> configuration=null, Action<BrowserContext> defaults=null) where TISopServer : class, IIsopServer
+        public static Browser GetBrowser<TISopServer>(Action<ConfigurationBuilder> configuration=null, Action<BrowserContext> defaults=null) where TISopServer : class, IIsopServer
         {
-            var bootstrapper = new TestBootstrapperWithIsopServer<TISopServer>(with=>{
-                with.DisableAutoRegistrations();
-                with.Module<ControllerModule>();
-                with.Module<IndexModule>();
-                if (null!=configuration)
+            var _config = new ConfigurationBuilder()
+                .Tap(configuration)
+                .Build();
+            var host = new WebHostBuilder()
+                .ConfigureLogging((hostingContext, logging) => {
+                    logging.AddConsole().AddDebug();
+                })
+                .UseConfiguration(_config)
+                .UseStartup<TISopServer>()
+                .UseDefaultServiceProvider((context, options) =>
                 {
-                    configuration(with);
-                }
-                with.ViewLocationProvider<ResourceViewLocationProvider>();
-                with.ViewEngine<VeilViewEngine>();
-            });
-
-            var browser = new Browser(bootstrapper, defaults);
-            return browser;
+                    options.ValidateScopes = true;
+                });
+            return new Browser(new TestServer(host), defaults);
         }
     }
 }

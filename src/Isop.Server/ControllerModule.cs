@@ -1,10 +1,10 @@
 ﻿using Isop.Server.Models;
-using Nancy;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Isop.Server
 {
+    #if false
     public class ControllerModule : NancyModule
     {
         public ControllerModule(IIsopServer data)
@@ -72,4 +72,5 @@ namespace Isop.Server
             };
         }
     }
+    #endif
 }

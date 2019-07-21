@@ -1,34 +1,28 @@
-using Nancy;
-using Nancy.Testing;
 using NUnit.Framework;
 using System.Linq;
-using With;
+using System.Net;
+using System.Threading.Tasks;
+
 namespace Isop.Tests.Server
 {
 
     [TestFixture]
     public class HtmlApiGivenSingleIntAction: BaseFixture
     {
-        private Browser browser;
-        [TestFixtureSetUp]
-        public void BeforeEachTest()
-        {
-            // Given
-            browser = GetBrowser<FakeIsopServerWithSingleIntAction>();
-        }
+        private static Browser browser=GetBrowser<FakeIsopServerWithSingleIntAction>();
 
         [Test]
-        public void Post_form_action_with()
+        public async Task Post_form_action_with()
         {
             // When
-            var result = browser.Post("/SingleIntAction/Action/", with =>
+            var result = await browser.Post("/SingleIntAction/Action/", with =>
                 {
                     with.HttpRequest();
                 });
 
             // Then
             Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
-            Assert.That(result.Body["p"].Select(p => p.InnerText).Join("\n"), Is.StringContaining("param"));
+            StringAssert.Contains(string.Join("\n",(await result.Body("p")).Select(p => p.InnerText)), "param");
         }
 
     }

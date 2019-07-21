@@ -3,8 +3,10 @@ using NUnit.Framework;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Isop.Client.Json;
-using Isop.Client;
+using Isop;
+using Isop.Abstractions;
 using Isop.Client.Transfer;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Isop.Client.Tests
 {
@@ -25,11 +27,11 @@ namespace Isop.Client.Tests
             }
         }
 
-        private Root GetRootModelFromBuild(Build b)
+        private Root GetRootModelFromBuild(IAppHost b)
         {
             var server = new Isop.Server.IsopServerFromBuild( ()=> b );
             var data = JsonConvert.SerializeObject(server.GetModel());
-            var client = new IsopClient(new JsonHttpClientThatOnlyReturns(data), "http://localhost:666");
+            var client = new IsopClient(new JsonHttpClientThatOnlyReturns(data), "http://localhost:166");
             return client.GetModel().Result;
         }
 
@@ -42,8 +44,8 @@ namespace Isop.Client.Tests
         [Test]
         public void Can_get_vm_from_configuration()
         {
-            var treemodel = GetRootModelFromBuild(new Build()
-                .Parameter("name"));
+            var treemodel = GetRootModelFromBuild(Builder.Create()
+                .Parameter("name").BuildAppHost());
             Assert.That(treemodel.GlobalParameters.Count(), Is.EqualTo(1));
 
             Assert.That(treemodel.GlobalParameters.Select(p => p.Name),
@@ -53,8 +55,8 @@ namespace Isop.Client.Tests
         [Test]
         public void Can_get_vm_from_configuration_with_controllers()
         {
-            var treemodel = GetRootModelFromBuild(new Build()
-                .Recognize(new MyController()));
+            var treemodel = GetRootModelFromBuild(Builder.Create(new ServiceCollection())
+                .Recognize(typeof(MyController)).BuildAppHost());
 
             Assert.That(treemodel.Controllers.Select(p => p.Name),
                 Is.EquivalentTo(new[] { "My" }));
